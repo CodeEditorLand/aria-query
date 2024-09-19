@@ -1,14 +1,16 @@
 [package]
 name = "aria_query"
 version = "0.1.0"
-authors = ["Shinobu Hayashi <philispaxil@gmail.com>"]
-categories = ["development-tools", "web-programming", "accessibility"]
-description = "Rust alternative aria-query"
-edition = "2021"
-keywords = ["JavaScript", "TypeScript", "accessibility"]
-license = "MIT"
-repository = "https://github.com/oxc-project/aria-query"
+authors      = ["Shinobu Hayashi <philispaxil@gmail.com>"]
+categories   = ["development-tools", "web-programming", "accessibility"]
+description  = "Rust alternative aria-query"
+edition      = "2021"
+keywords     = ["JavaScript", "TypeScript", "accessibility"]
+license      = "MIT"
+repository   = "https://github.com/oxc-project/aria-query"
 rust-version = "1.60"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 phf = { version = "0.11", features = ["macros"] }
