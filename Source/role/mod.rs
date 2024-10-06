@@ -1,6 +1,7 @@
 mod aria_abstract_roles;
-use crate::definition::ARIARoleDefinition;
 use std::collections::HashMap;
+
+use crate::definition::ARIARoleDefinition;
 
 pub fn entries() -> HashMap<&'static str, &'static ARIARoleDefinition> {
 	aria_abstract_roles::ARIA_ABSTRACT_ROLES
@@ -9,24 +10,20 @@ pub fn entries() -> HashMap<&'static str, &'static ARIARoleDefinition> {
 		.collect()
 }
 
-pub fn for_each(
-	mut callback: impl FnMut(&'static str, &'static ARIARoleDefinition),
-) {
+pub fn for_each(mut callback:impl FnMut(&'static str, &'static ARIARoleDefinition)) {
 	aria_abstract_roles::ARIA_ABSTRACT_ROLES
 		.into_iter()
 		.for_each(|(k, v)| callback(k, v));
 }
 
-pub fn get(name: &str) -> Option<&'static ARIARoleDefinition> {
+pub fn get(name:&str) -> Option<&'static ARIARoleDefinition> {
 	match aria_abstract_roles::ARIA_ABSTRACT_ROLES.get(name) {
 		Some(v) => Some(v),
 		None => None,
 	}
 }
 
-pub fn has(name: &str) -> bool {
-	aria_abstract_roles::ARIA_ABSTRACT_ROLES.contains_key(name)
-}
+pub fn has(name:&str) -> bool { aria_abstract_roles::ARIA_ABSTRACT_ROLES.contains_key(name) }
 
 pub fn keys() -> impl Iterator<Item = &'static str> {
 	aria_abstract_roles::ARIA_ABSTRACT_ROLES.keys().copied()
@@ -38,9 +35,9 @@ pub fn values() -> impl Iterator<Item = &'static ARIARoleDefinition> {
 
 #[cfg(test)]
 mod test {
-	use crate::definition::ARIARoleDefinition;
-	use crate::role;
 	use insta::{assert_json_snapshot, Settings};
+
+	use crate::{definition::ARIARoleDefinition, role};
 
 	#[test]
 	fn snapshot_for_entries() {
@@ -88,8 +85,7 @@ mod test {
 	#[test]
 	fn snapshot_values() {
 		let roles_values = role::values();
-		let roles_values =
-			roles_values.collect::<Vec<&'static ARIARoleDefinition>>();
+		let roles_values = roles_values.collect::<Vec<&'static ARIARoleDefinition>>();
 		let mut settings = Settings::clone_current();
 		settings.set_sort_maps(true);
 		settings.bind(|| {

@@ -1,11 +1,18 @@
-use crate::definition::{
-	ARIAAbstractRole, ARIADocumentStructureRole, ARIANameFromSources, ARIARole,
-	ARIARoleDefinition, ARIARoleDefinitionKey, ARIARoleRelation,
-	ARIARoleRelationConcept, RoleDefinitions,
-};
 use phf::phf_ordered_map;
 
-pub static ARIA_ABSTRACT_ROLES: RoleDefinitions = phf_ordered_map! {
+use crate::definition::{
+	ARIAAbstractRole,
+	ARIADocumentStructureRole,
+	ARIANameFromSources,
+	ARIARole,
+	ARIARoleDefinition,
+	ARIARoleDefinitionKey,
+	ARIARoleRelation,
+	ARIARoleRelationConcept,
+	RoleDefinitions,
+};
+
+pub static ARIA_ABSTRACT_ROLES:RoleDefinitions = phf_ordered_map! {
 	"command" => &ARIARoleDefinition {
 		is_abstract: true,
 		accessible_name_required: false,

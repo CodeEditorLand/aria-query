@@ -1,13 +1,15 @@
-use crate::definition::{
-	ARIAProperty, ARIAPropertyDefinition, ARIAPropertyDefinitionType, ARIAState,
-};
-use phf::{phf_ordered_map, OrderedMap};
 use std::collections::HashMap;
 
-static ARIA_PROPS_MAP: OrderedMap<
-	&'static str,
-	&'static ARIAPropertyDefinition,
-> = phf_ordered_map! {
+use phf::{phf_ordered_map, OrderedMap};
+
+use crate::definition::{
+	ARIAProperty,
+	ARIAPropertyDefinition,
+	ARIAPropertyDefinitionType,
+	ARIAState,
+};
+
+static ARIA_PROPS_MAP:OrderedMap<&'static str, &'static ARIAPropertyDefinition> = phf_ordered_map! {
 	"aria-activedescendant" => &ARIAPropertyDefinition {
 		key: ARIAProperty::AriaActivedescendant,
 		type_: ARIAPropertyDefinitionType::Id,
@@ -314,26 +316,20 @@ pub fn entries() -> HashMap<&'static str, &'static ARIAPropertyDefinition> {
 	ARIA_PROPS_MAP.entries().map(|(k, v)| (*k, *v)).collect()
 }
 
-pub fn for_each(
-	mut callback: impl FnMut(&'static str, &'static ARIAPropertyDefinition),
-) {
+pub fn for_each(mut callback:impl FnMut(&'static str, &'static ARIAPropertyDefinition)) {
 	ARIA_PROPS_MAP.into_iter().for_each(|(k, v)| callback(k, v));
 }
 
-pub fn get(name: &str) -> Option<&'static ARIAPropertyDefinition> {
+pub fn get(name:&str) -> Option<&'static ARIAPropertyDefinition> {
 	match ARIA_PROPS_MAP.get(name) {
 		Some(v) => Some(v),
 		None => None,
 	}
 }
 
-pub fn has(name: &str) -> bool {
-	ARIA_PROPS_MAP.contains_key(name)
-}
+pub fn has(name:&str) -> bool { ARIA_PROPS_MAP.contains_key(name) }
 
-pub fn keys() -> impl Iterator<Item = &'static str> {
-	ARIA_PROPS_MAP.keys().copied()
-}
+pub fn keys() -> impl Iterator<Item = &'static str> { ARIA_PROPS_MAP.keys().copied() }
 
 pub fn values() -> impl Iterator<Item = &'static ARIAPropertyDefinition> {
 	ARIA_PROPS_MAP.values().copied()
@@ -341,8 +337,9 @@ pub fn values() -> impl Iterator<Item = &'static ARIAPropertyDefinition> {
 
 #[cfg(test)]
 mod test {
-	use crate::aria;
 	use insta::{assert_json_snapshot, Settings};
+
+	use crate::aria;
 
 	#[test]
 	fn snapshot_for_entries() {

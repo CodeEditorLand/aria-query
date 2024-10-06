@@ -1,7 +1,8 @@
+use std::collections::HashMap;
+
 use phf::{phf_ordered_map, OrderedMap};
 #[cfg(test)]
 use serde::Serialize;
-use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Eq, Hash)]
 pub enum DOMElements {
@@ -138,16 +139,15 @@ pub enum DOMElements {
 
 #[cfg(test)]
 impl Serialize for DOMElements {
-	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+	fn serialize<S>(&self, serializer:S) -> Result<S::Ok, S::Error>
 	where
-		S: serde::ser::Serializer,
-	{
+		S: serde::ser::Serializer, {
 		let raw_dom_element = map_enum_dom_element_to_raw(self);
 		raw_dom_element.serialize(serializer)
 	}
 }
 
-static DOM_ELEMENTS: OrderedMap<&'static str, bool> = phf_ordered_map! {
+static DOM_ELEMENTS:OrderedMap<&'static str, bool> = phf_ordered_map! {
 	"a" => false,
 	"abbr" => false,
 	"acronym" => false,
@@ -279,7 +279,7 @@ static DOM_ELEMENTS: OrderedMap<&'static str, bool> = phf_ordered_map! {
 	"xmp" => false,
 };
 
-fn map_raw_dom_element_to_enum(raw_dom_element: &'static str) -> DOMElements {
+fn map_raw_dom_element_to_enum(raw_dom_element:&'static str) -> DOMElements {
 	match raw_dom_element {
 		"a" => DOMElements::A,
 		"abbr" => DOMElements::Abbr,
@@ -414,7 +414,7 @@ fn map_raw_dom_element_to_enum(raw_dom_element: &'static str) -> DOMElements {
 	}
 }
 
-fn map_enum_dom_element_to_raw(dom_element: &DOMElements) -> &'static str {
+fn map_enum_dom_element_to_raw(dom_element:&DOMElements) -> &'static str {
 	match dom_element {
 		DOMElements::A => "a",
 		DOMElements::Abbr => "abbr",
@@ -559,43 +559,34 @@ pub fn entries_with_enum_dom_elements() -> HashMap<DOMElements, bool> {
 		.collect()
 }
 
-pub fn for_each(mut callback: impl FnMut(&'static str, bool)) {
+pub fn for_each(mut callback:impl FnMut(&'static str, bool)) {
 	DOM_ELEMENTS.into_iter().for_each(|(k, v)| callback(k, *v));
 }
 
-pub fn for_each_with_enum_dom_elements(
-	mut callback: impl FnMut(DOMElements, bool),
-) {
+pub fn for_each_with_enum_dom_elements(mut callback:impl FnMut(DOMElements, bool)) {
 	DOM_ELEMENTS
 		.into_iter()
 		.for_each(|(k, v)| callback(map_raw_dom_element_to_enum(k), *v));
 }
 
-pub fn get(name: &str) -> Option<bool> {
-	DOM_ELEMENTS.get(name).copied()
-}
+pub fn get(name:&str) -> Option<bool> { DOM_ELEMENTS.get(name).copied() }
 
-pub fn get_with_enum_dom_elements(dom_element: DOMElements) -> Option<bool> {
+pub fn get_with_enum_dom_elements(dom_element:DOMElements) -> Option<bool> {
 	let raw_dom_element = map_enum_dom_element_to_raw(&dom_element);
 	DOM_ELEMENTS.get(raw_dom_element).copied()
 }
 
-pub fn has(name: &str) -> bool {
-	DOM_ELEMENTS.contains_key(name)
-}
+pub fn has(name:&str) -> bool { DOM_ELEMENTS.contains_key(name) }
 
-pub fn keys() -> impl Iterator<Item = &'static str> {
-	DOM_ELEMENTS.keys().copied()
-}
+pub fn keys() -> impl Iterator<Item = &'static str> { DOM_ELEMENTS.keys().copied() }
 
-pub fn values() -> impl Iterator<Item = bool> {
-	DOM_ELEMENTS.values().copied()
-}
+pub fn values() -> impl Iterator<Item = bool> { DOM_ELEMENTS.values().copied() }
 
 #[cfg(test)]
 mod test {
-	use crate::dom;
 	use insta::{assert_json_snapshot, Settings};
+
+	use crate::dom;
 
 	#[test]
 	fn snapshot_for_entries() {
@@ -656,9 +647,7 @@ mod test {
 		});
 		assert_eq!(
 			elements_list,
-			dom::keys()
-				.map(dom::map_raw_dom_element_to_enum)
-				.collect::<Vec<_>>()
+			dom::keys().map(dom::map_raw_dom_element_to_enum).collect::<Vec<_>>()
 		);
 	}
 
@@ -671,14 +660,8 @@ mod test {
 
 	#[test]
 	fn test_get_with_enum_dom_elements() {
-		assert_eq!(
-			dom::get_with_enum_dom_elements(dom::DOMElements::A),
-			Some(false)
-		);
-		assert_eq!(
-			dom::get_with_enum_dom_elements(dom::DOMElements::Html),
-			Some(true)
-		);
+		assert_eq!(dom::get_with_enum_dom_elements(dom::DOMElements::A), Some(false));
+		assert_eq!(dom::get_with_enum_dom_elements(dom::DOMElements::Html), Some(true));
 	}
 
 	#[test]
