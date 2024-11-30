@@ -143,6 +143,7 @@ impl Serialize for DOMElements {
 	where
 		S: serde::ser::Serializer, {
 		let raw_dom_element = map_enum_dom_element_to_raw(self);
+
 		raw_dom_element.serialize(serializer)
 	}
 }
@@ -573,6 +574,7 @@ pub fn get(name:&str) -> Option<bool> { DOM_ELEMENTS.get(name).copied() }
 
 pub fn get_with_enum_dom_elements(dom_element:DOMElements) -> Option<bool> {
 	let raw_dom_element = map_enum_dom_element_to_raw(&dom_element);
+
 	DOM_ELEMENTS.get(raw_dom_element).copied()
 }
 
@@ -593,7 +595,9 @@ mod test {
 		let dom_entries = dom::entries();
 
 		let mut settings = Settings::clone_current();
+
 		settings.set_sort_maps(true);
+
 		settings.bind(|| {
 			assert_json_snapshot!(dom_entries);
 		});
@@ -604,7 +608,9 @@ mod test {
 		let dom_entries = dom::entries_with_enum_dom_elements();
 
 		let mut settings = Settings::clone_current();
+
 		settings.set_sort_maps(true);
+
 		settings.bind(|| {
 			assert_json_snapshot!(dom_entries);
 		});
@@ -613,38 +619,54 @@ mod test {
 	#[test]
 	fn test_for_each() {
 		let mut el_count = 0;
+
 		dom::for_each(|_, _| el_count += 1);
+
 		assert_eq!(el_count, 129);
+
 		let mut reserved_count = 0;
+
 		dom::for_each(|_, v| {
 			if v {
 				reserved_count += 1
 			}
 		});
+
 		assert_eq!(reserved_count, 16);
+
 		let mut elements_list = Vec::new();
+
 		dom::for_each(|k, _| {
 			elements_list.push(k);
 		});
+
 		assert_eq!(elements_list, dom::keys().collect::<Vec<_>>());
 	}
 
 	#[test]
 	fn test_for_each_with_enum_dom_elements() {
 		let mut el_count = 0;
+
 		dom::for_each_with_enum_dom_elements(|_, _| el_count += 1);
+
 		assert_eq!(el_count, 129);
+
 		let mut reserved_count = 0;
+
 		dom::for_each_with_enum_dom_elements(|_, v| {
 			if v {
 				reserved_count += 1
 			}
 		});
+
 		assert_eq!(reserved_count, 16);
+
 		let mut elements_list = Vec::new();
+
 		dom::for_each_with_enum_dom_elements(|k, _| {
 			elements_list.push(k);
 		});
+
 		assert_eq!(
 			elements_list,
 			dom::keys().map(dom::map_raw_dom_element_to_enum).collect::<Vec<_>>()
@@ -654,26 +676,32 @@ mod test {
 	#[test]
 	fn test_get() {
 		assert_eq!(dom::get("a"), Some(false));
+
 		assert_eq!(dom::get("html"), Some(true));
+
 		assert_eq!(dom::get("unknown"), None);
 	}
 
 	#[test]
 	fn test_get_with_enum_dom_elements() {
 		assert_eq!(dom::get_with_enum_dom_elements(dom::DOMElements::A), Some(false));
+
 		assert_eq!(dom::get_with_enum_dom_elements(dom::DOMElements::Html), Some(true));
 	}
 
 	#[test]
 	fn test_has() {
 		assert!(dom::has("a"));
+
 		assert!(dom::has("html"));
+
 		assert!(!dom::has("unknown"));
 	}
 
 	#[test]
 	fn test_keys() {
 		let keys = dom::keys().collect::<Vec<_>>();
+
 		for key in keys {
 			assert!(dom::entries().contains_key(key));
 		}

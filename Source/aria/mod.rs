@@ -346,7 +346,9 @@ mod test {
 		let aria_entries = aria::entries();
 
 		let mut settings = Settings::clone_current();
+
 		settings.set_sort_maps(true);
+
 		settings.bind(|| {
 			assert_json_snapshot!(aria_entries);
 		});
@@ -355,30 +357,38 @@ mod test {
 	#[test]
 	fn test_for_each() {
 		let mut el_count = 0;
+
 		aria::for_each(|_, _| el_count += 1);
+
 		assert_eq!(el_count, 50);
+
 		let mut elements_list = Vec::new();
+
 		aria::for_each(|k, _| {
 			elements_list.push(k);
 		});
+
 		assert_eq!(elements_list, aria::keys().collect::<Vec<_>>());
 	}
 
 	#[test]
 	fn test_get() {
 		assert!(aria::get("aria-activedescendant").is_some());
+
 		assert!(aria::get("aria-unknown").is_none());
 	}
 
 	#[test]
 	fn test_has() {
 		assert!(aria::has("aria-activedescendant"));
+
 		assert!(!aria::has("aria-unknown"));
 	}
 
 	#[test]
 	fn test_keys() {
 		let keys = aria::keys().collect::<Vec<_>>();
+
 		for key in keys {
 			assert!(aria::entries().contains_key(key));
 		}

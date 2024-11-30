@@ -44,7 +44,9 @@ mod test {
 		let roles_entries = role::entries();
 
 		let mut settings = Settings::clone_current();
+
 		settings.set_sort_maps(true);
+
 		settings.bind(|| {
 			assert_json_snapshot!(roles_entries);
 		});
@@ -53,30 +55,38 @@ mod test {
 	#[test]
 	fn test_for_each() {
 		let mut el_count = 0;
+
 		role::for_each(|_, _| el_count += 1);
+
 		assert_eq!(el_count, 12);
+
 		let mut elements_list = Vec::new();
+
 		role::for_each(|k, _| {
 			elements_list.push(k);
 		});
+
 		assert_eq!(elements_list, role::keys().collect::<Vec<_>>());
 	}
 
 	#[test]
 	fn test_get() {
 		assert!(role::get("command").is_some());
+
 		assert!(role::get("unknown").is_none());
 	}
 
 	#[test]
 	fn test_has() {
 		assert!(role::has("command"));
+
 		assert!(!role::has("unknown"));
 	}
 
 	#[test]
 	fn test_keys() {
 		let keys = role::keys().collect::<Vec<_>>();
+
 		for key in keys {
 			assert!(role::entries().contains_key(key));
 		}
@@ -85,9 +95,13 @@ mod test {
 	#[test]
 	fn snapshot_values() {
 		let roles_values = role::values();
+
 		let roles_values = roles_values.collect::<Vec<&'static ARIARoleDefinition>>();
+
 		let mut settings = Settings::clone_current();
+
 		settings.set_sort_maps(true);
+
 		settings.bind(|| {
 			assert_json_snapshot!(roles_values);
 		});

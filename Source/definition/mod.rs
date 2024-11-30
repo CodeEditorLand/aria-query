@@ -293,6 +293,7 @@ impl Serialize for ARIAPropertyDefinition {
 	where
 		S: serde::Serializer, {
 		let mut state = serializer.serialize_struct("ARIAProperty", 4)?;
+
 		state.serialize_field(
 			"key",
 			match self.key {
@@ -349,6 +350,7 @@ impl Serialize for ARIAPropertyDefinition {
 				ARIAProperty::ARIAState(ARIAState::AriaSelected) => "aria-selected",
 			},
 		)?;
+
 		state.serialize_field(
 			"type",
 			match self.type_ {
@@ -363,6 +365,7 @@ impl Serialize for ARIAPropertyDefinition {
 				ARIAPropertyDefinitionType::Tristate => "tristate",
 			},
 		)?;
+
 		match &self.values {
 			Some(values) => {
 				state.serialize_field("values", &values)?;
@@ -371,6 +374,7 @@ impl Serialize for ARIAPropertyDefinition {
 				state.skip_field("values")?;
 			},
 		};
+
 		match self.allow_undefined {
 			Some(allow_undefined) => {
 				state.serialize_field("allow_undefined", &allow_undefined)?;
