@@ -6,7 +6,7 @@ categories = ["development-tools", "web-programming", "accessibility"]
 description = "Rust alternative aria-query"
 edition = "2021"
 keywords = ["JavaScript", "TypeScript", "accessibility"]
-license = "MIT"
+license-file = "LICENSE"
 repository = "https://github.com/oxc-project/aria-query"
 rust-version = "1.60"
 
