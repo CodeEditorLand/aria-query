@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use phf::{phf_ordered_map, OrderedMap};
+use phf::{OrderedMap, phf_ordered_map};
 
 use crate::definition::{
 	ARIAProperty,
@@ -337,7 +337,7 @@ pub fn values() -> impl Iterator<Item = &'static ARIAPropertyDefinition> {
 
 #[cfg(test)]
 mod test {
-	use insta::{assert_json_snapshot, Settings};
+	use insta::{Settings, assert_json_snapshot};
 
 	use crate::aria;
 

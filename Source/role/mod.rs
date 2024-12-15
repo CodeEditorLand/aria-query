@@ -35,7 +35,7 @@ pub fn values() -> impl Iterator<Item = &'static ARIARoleDefinition> {
 
 #[cfg(test)]
 mod test {
-	use insta::{assert_json_snapshot, Settings};
+	use insta::{Settings, assert_json_snapshot};
 
 	use crate::{definition::ARIARoleDefinition, role};
 

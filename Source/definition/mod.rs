@@ -1,6 +1,6 @@
 use phf::OrderedMap;
 #[cfg(test)]
-use serde::{ser::SerializeStruct, Serialize};
+use serde::{Serialize, ser::SerializeStruct};
 
 #[cfg_attr(test, derive(Serialize))]
 pub enum ARIAAbstractRole {
