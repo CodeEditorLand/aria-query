@@ -2,8 +2,8 @@
 phf = { version = "0.11", features = ["macros"] }
 
 [dev-dependencies]
-insta = { version = "1.34.0", features = ["json"] }
-serde = { version = "1.0.195", features = ["derive"] }
+insta = { version = "1.42.1", features = ["json"] }
+serde = { version = "1.0.217", features = ["derive"] }
 
 [lib]
 path = "Source/lib.rs"
@@ -12,10 +12,10 @@ path = "Source/lib.rs"
 authors = ["Shinobu Hayashi <philispaxil@gmail.com>"]
 categories = ["development-tools", "web-programming", "accessibility"]
 description = "Rust alternative aria-query"
-edition = "2021"
+edition = "2024"
 keywords = ["JavaScript", "TypeScript", "accessibility"]
 license-file = "LICENSE"
 name = "aria_query"
 repository = "https://github.com/oxc-project/aria-query"
-rust-version = "1.60"
+rust-version = "1.85.0"
 version = "0.1.0"
